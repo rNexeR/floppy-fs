@@ -1,6 +1,8 @@
 fs_write:
-	mov bx, [sp + 2] ;buffer_dir
-	mov ax, [sp + 4] ;block_number
+	push bp
+	mov bp, sp
+	mov bx, [bp + 2] ;buffer_dir
+	mov ax, [bp + 4] ;block_number
 
 	call disk_convert_l2hts
 
@@ -9,11 +11,14 @@ fs_write:
 	mov es, bx
 	mov bx, 0x0
 	int 13h
+	pop bp
 	ret
 
 fs_read:
-	mov bx, [sp + 2] ;buffer_dir
-	mov ax, [sp + 4] ;block_number
+	push bp
+	mov bp, sp
+	mov bx, [bp + 2] ;buffer_dir
+	mov ax, [bp + 4] ;block_number
 
 	call disk_convert_l2hts
 
@@ -22,6 +27,7 @@ fs_read:
 	mov es, bx
 	mov bx, 0x0
 	int 13h
+	pop bp
 
 	ret
 

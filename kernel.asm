@@ -25,8 +25,8 @@ call os_print_string
 
 call os_wait_for_key
 
-mov ax, string_t
-call os_input_string
+; mov ax, string_t
+; call os_input_string
 
 mov si, string_t
 mov ax, 20
@@ -61,7 +61,7 @@ filename_input	times 12 db 0
 %INCLUDE "features/keyboard.asm"
 %INCLUDE "features/utils.asm"
 %INCLUDE "features/string.asm"
-%INCLUDE "features/fs.asm	"
+%INCLUDE "features/fs.asm"
 ; %INCLUDE "features/screen.asm"
 ; %INCLUDE "features/cli.asm"
 ; %INCLUDE "features/disk.asm"
