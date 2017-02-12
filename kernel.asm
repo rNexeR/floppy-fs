@@ -12,10 +12,10 @@ call os_print_string ;call function to print SI (msg)
 
 call os_print_horiz_line
 
-mov ax, 5
-call os_int_to_string
-mov si, ax
-call os_print_string
+; mov ax, 5
+; call os_int_to_string
+; mov si, ax
+; call os_print_string
 
 ; mov si, str1
 ; call os_string_to_int
@@ -23,26 +23,34 @@ call os_print_string
 ; mov si, ax
 ; call os_print_string
 
-call os_wait_for_key
+; call os_wait_for_key
 
-; mov ax, string_t
-; call os_input_string
+; mov bx, str1
+; mov ax, 4
+; push ax
+; push bx
 
-mov si, string_t
-mov ax, 20
-push ax
-push si
+; call fs_write
 
-call fs_write
+; pop bx
+; pop ax
 
-mov bx, str1
-mov ax, 20
-push ax
-push bx
-call fs_read
-
-mov si, str1
+mov si, msg
 call os_print_string
+
+call fs_get_drive_info
+
+; mov bx, str1
+; mov ax, 4
+; push ax
+; push bx
+; call fs_read
+
+; pop bx
+; pop ax
+
+; mov si, str1
+; call os_print_string
 
 
 mov si, msg ;move msg to SI-pointer
@@ -51,17 +59,17 @@ call os_print_string ;call function to print SI (msg)
 call os_wait_for_key
 
 
-string_t times 20 db 0
+string_t times 1 db 0
 
-str1 db "12374",0
+str1 db "1",0
 
 msg db 'Hello world from the kernel!', 13, 10, 0
-filename_input	times 12 db 0
+filename_input	times 1 db 0
 
+%INCLUDE "features/fs.asm"
 %INCLUDE "features/keyboard.asm"
 %INCLUDE "features/utils.asm"
 %INCLUDE "features/string.asm"
-%INCLUDE "features/fs.asm"
 ; %INCLUDE "features/screen.asm"
 ; %INCLUDE "features/cli.asm"
 ; %INCLUDE "features/disk.asm"

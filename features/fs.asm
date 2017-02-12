@@ -1,15 +1,23 @@
 fs_write:
 	push bp
 	mov bp, sp
-	mov bx, [bp + 2] ;buffer_dir
 	mov ax, [bp + 4] ;block_number
 
 	call disk_convert_l2hts
 
+	mov bx, [bp + 2] ;buffer_dir
+	
+	; mov es, bx
+	; mov bx, 0x0
+	
+	mov si, bx			; Set ES:BX to point to our buffer (see end of code)
+	mov bx, ds
+	mov es, bx
+	mov bx, si
+
 	mov ah, 0x03
 	mov al, 0x01
-	mov es, bx
-	mov bx, 0x0
+
 	int 13h
 	pop bp
 	ret
@@ -17,22 +25,57 @@ fs_write:
 fs_read:
 	push bp
 	mov bp, sp
-	mov bx, [bp + 2] ;buffer_dir
 	mov ax, [bp + 4] ;block_number
 
 	call disk_convert_l2hts
 
-	mov ah, 0x02
-	mov al, 0x01
+	mov bx, [bp + 2] ;buffer_dir
+	
+	; mov es, bx
+	; mov bx, 0x0
+	
+	mov si, bx			; Set ES:BX to point to our buffer (see end of code)
+	mov bx, ds
 	mov es, bx
-	mov bx, 0x0
+	mov bx, si
+
+	mov ah, 2
+	mov al, 1
+
+	pusha
+	mov ax, [bp + 2]
+	call os_int_to_string
+	mov si, ax
+	call os_print_string
+	popa
+
 	int 13h
 	pop bp
 
 	ret
 
 fs_get_drive_info:
+	mov ah, 8			; Get drive parameters
+	int 13h
+	and cx, 3Fh			; Maximum sector number
+	mov ax, cx	; Sector numbers start at 1
+	
+	pusha
+	mov si, ax
+	call os_print_string
+	popa
+	pusha
+	call os_int_to_string
+	mov si, ax
+	call os_print_string
+	popa
+
+
+	movzx dx, dh			; Maximum head number
+	add dx, 1			; Head numbers start at 0 - add 1 for total
 	ret
+
+m1 db 'SN: ', 0
 
 ; --------------------------------------------------------------------------
 ; Reset floppy disk
@@ -88,3 +131,4 @@ disk_convert_l2hts:
 	SecsPerTrack dw 18
 ; ******************************************************************
 	bootdev db 0			; Boot device number
+	str2 db "hola",0

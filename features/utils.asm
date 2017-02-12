@@ -257,7 +257,7 @@ os_int_to_string:
 	ret
 
 
-	.t times 7 db 0
+	.t times 5 db 0
 
 	; ------------------------------------------------------------------
 ; os_string_to_int -- Convert decimal string to integer value
