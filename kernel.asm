@@ -61,7 +61,7 @@ call os_wait_for_key
 
 string_t times 1 db 0
 
-str1 db "1",0
+str1 times 512 db "1",0
 
 msg db 'Hello world from the kernel!', 13, 10, 0
 filename_input	times 1 db 0

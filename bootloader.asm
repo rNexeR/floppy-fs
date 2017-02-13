@@ -1,12 +1,12 @@
 [BITS 16]
 [ORG 0x7C00]
 
-mov ax, 07C0h			; Set up 4K of stack space above buffer
-add ax, 544			; 8k buffer = 512 paragraphs + 32 paragraphs (loader)
-cli				; Disable interrupts while changing stack
-mov ss, ax
-mov sp, 4096
-sti				; Restore interrupts
+; mov ax, 07C0h			; Set up 4K of stack space above buffer
+; add ax, 544			; 8k buffer = 512 paragraphs + 32 paragraphs (loader)
+; cli				; Disable interrupts while changing stack
+; mov ss, ax
+; mov sp, 4096
+; sti				; Restore interrupts
 
 MOV DL, 0x0 ;drive 0 = floppy 1
 MOV DH, 0x0 ;head (0=base)
